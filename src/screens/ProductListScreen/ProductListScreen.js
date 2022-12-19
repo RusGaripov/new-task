@@ -21,6 +21,8 @@ const ProductListScreen = () => {
 
   const [brandsList, setBrandsList] = useState([]);
 
+  const [productNotActiveList, setProductNotActiveList] = useState([]);
+
   const { pageNumber } = useParams() || 1;
 
   const dispatch = useDispatch()
@@ -38,8 +40,6 @@ const ProductListScreen = () => {
   const cart = useSelector((state) => state.cart)
 
   const { cartItems } = cart
-
-  console.log(cartItems.length)
 
   useEffect(() => {
     if (!pageNumber) {
@@ -96,7 +96,6 @@ const ProductListScreen = () => {
                         style={{ color: 'green' }}
                         onClick={(e) => {
                           if (e.target.checked) {
-                            console.log(brandsList)
                             setBrandsList([...brandsList, brand.id])
                           }
                           else {
@@ -128,11 +127,14 @@ const ProductListScreen = () => {
                   <Card.Title>{product.title}</Card.Title>
                   <Button
                     variant="primary"
-                    onClick={() =>
+                    disabled={productNotActiveList.filter(item => item === product.id).length > 0 ? true : false}
+                    onClick={() => {
+                      setProductNotActiveList([...productNotActiveList, product.id])
                       dispatch(
                         addToCart(product)
                       )
                     }
+                  }
                   >
                     Add to Basket
                   </Button>

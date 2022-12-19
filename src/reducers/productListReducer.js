@@ -11,7 +11,6 @@ export const productListReducer = (state = { productsInfo: { products: [], page:
         case PRODUCT_LIST_REQUEST:
             return { loading: true, productsInfo: {} }
         case PRODUCT_LIST_SUCCESS:
-            console.log(products)
             return {
                 productsInfo: action.payload,
                 loading: false,
